@@ -4,11 +4,14 @@ const sequelize = require('../sequelize');  // Import sequelize instance
 
 // Define Game model
 const Game = sequelize.define('Game', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true, // Automatically increments the ID
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    primaryKey: true
-
   },
   min_players: {
     type: DataTypes.INTEGER,

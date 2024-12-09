@@ -25,9 +25,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.get('/', getHomePage);
 app.get('/add-game', game.getAdd);
-app.post('/add-game', game.postAdd);
 app.get('/edit-game/:id', game.getEdit);
+
+app.post('/add-game', game.postAdd);
 app.post('/edit-game/:id', game.postEdit);
+app.post('/delete-game/:id', game.postDelete);
+app.post('/play/:id', game.postPlay);
 
 app.listen(process.env.port, () => {
   console.log(`Server running on port: ${process.env.port}`);

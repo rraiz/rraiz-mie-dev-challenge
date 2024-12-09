@@ -6,7 +6,6 @@
 		<div class="flex items-center">
 			<label for="sort-by" class="mr-2">Sort By:</label>
 			<select id="sort-by" class="p-2 border rounded">
-				<!-- Set the selected option based on the sortOption value -->
 				<option value="last_played_desc" <%= sortOption === 'last_played_desc' ? 'selected' : '' %>>Last Played (Newest First)</option>
 				<option value="last_played_asc" <%= sortOption === 'last_played_asc' ? 'selected' : '' %>>Last Played (Oldest First)</option>
 				<option value="times_played_desc" <%= sortOption === 'times_played_desc' ? 'selected' : '' %>>Times Played (Most to Least)</option>
@@ -29,7 +28,10 @@
 				</div>
 
 				<div class="flex space-x-2 mt-3">
-					<a href="/games/<%= game.id %>" class="bg-yellow-500 hover:bg-yellow-400 text-white py-1 px-3 rounded-md font-semibold transition-all duration-300">Play</a>
+					<!-- Play button as a POST form -->
+					<form action="/play/<%= game.id %>" method="POST">
+						<button type="submit" class="bg-yellow-500 hover:bg-yellow-400 text-white py-1 px-3 rounded-md font-semibold transition-all duration-300">Play</button>
+					</form>
 					<a href="/edit-game/<%= game.id %>" class="bg-teal-500 hover:bg-teal-400 text-white py-1 px-3 rounded-md font-semibold transition-all duration-300">Edit</a>
 				</div>
 			</div>
@@ -37,9 +39,29 @@
 	</div>
 </div>
 
-<%- include('partials/footer.ejs') %>
+<!-- Toast Notification for Success Message -->
+<div id="toast-message" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-[#64906C] text-white py-2 px-4 rounded-lg opacity-0 transition-opacity duration-300">
+  Game updated!
+</div>
 
 <script>
+  // Show success message if present in query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const message = urlParams.get('message');
+  const toastMessage = document.getElementById('toast-message');
+
+  if (message) {
+    // Show the toast notification
+    toastMessage.classList.remove('opacity-0');
+    toastMessage.classList.add('opacity-100');
+
+    // Hide the toast after 3 seconds
+    setTimeout(() => {
+      toastMessage.classList.remove('opacity-100');
+      toastMessage.classList.add('opacity-0');
+    }, 3000);
+  }
+
   // Add an event listener to trigger the page reload with the selected sort option
   document.getElementById('sort-by').addEventListener('change', function() {
     const sortValue = this.value;
