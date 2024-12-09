@@ -1,9 +1,48 @@
 <%- include('partials/header.ejs') %>
 
-<div>
-	TODO: Display list of board games
+<div class="bg-[#fffcec] min-h-screen">
+	<!-- Sort Dropdown -->
+	<div class="flex justify-between items-center p-4">
+		<div class="flex items-center">
+			<label for="sort-by" class="mr-2">Sort By:</label>
+			<select id="sort-by" class="p-2 border rounded">
+				<!-- Set the selected option based on the sortOption value -->
+				<option value="last_played_desc" <%= sortOption === 'last_played_desc' ? 'selected' : '' %>>Last Played (Newest First)</option>
+				<option value="last_played_asc" <%= sortOption === 'last_played_asc' ? 'selected' : '' %>>Last Played (Oldest First)</option>
+				<option value="times_played_desc" <%= sortOption === 'times_played_desc' ? 'selected' : '' %>>Times Played (Most to Least)</option>
+				<option value="times_played_asc" <%= sortOption === 'times_played_asc' ? 'selected' : '' %>>Times Played (Least to Most)</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="grid grid-cols-4 gap-[55px] p-5 mx-auto max-w-[1300px]">
+		<% games.forEach(function(game, index) { %>
+			<div class="game-card bg-white rounded-lg pl-2 pr-2 pt-2 shadow-[0px_2px_15px_2px_rgba(0,0,0,0.1)] flex flex-col items-center w-full h-80 transition-transform transform hover:scale-105">
+				<img src="<%= game.thumbnail %>" alt="<%= game.name %>" class="w-full h-36 object-cover rounded-md">
+				<h2 class="text-[25px] font-bold text-gray-800"><%= game.name %></h2>
+				<p class="text-gray-600">Players: <%= game.min_players %> - <%= game.max_players %></p>
+				
+				<!-- Displaying last game session and times played on separate lines and left-aligned -->
+				<div class="text-sm text-gray-500 text-left">
+					<p><span class="font-bold">Last game session:</span> <%= game.last_played %></p>
+					<p><span class="font-bold">Times played:</span> <%= game.times_played %></p>
+				</div>
+
+				<div class="flex space-x-2 mt-3">
+					<a href="/games/<%= game.id %>" class="bg-yellow-500 hover:bg-yellow-400 text-white py-1 px-3 rounded-md font-semibold transition-all duration-300">Play</a>
+					<a href="/edit-game/<%= game.id %>" class="bg-teal-500 hover:bg-teal-400 text-white py-1 px-3 rounded-md font-semibold transition-all duration-300">Edit</a>
+				</div>
+			</div>
+		<% }) %>
+	</div>
 </div>
 
-<a href="/add-game">Add Game</a>
+<%- include('partials/footer.ejs') %>
 
-<%- include ('partials/footer.ejs') %>
+<script>
+  // Add an event listener to trigger the page reload with the selected sort option
+  document.getElementById('sort-by').addEventListener('change', function() {
+    const sortValue = this.value;
+    window.location.href = `/?sort=${sortValue}`;  // Reload the page with the new query parameter
+  });
+</script>
