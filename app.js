@@ -32,6 +32,6 @@ app.post('/edit-game/:id', game.postEdit);
 app.post('/delete-game/:id', game.postDelete);
 app.post('/play/:id', game.postPlay);
 
-app.listen(process.env.port, () => {
-  console.log(`Server running on port: ${process.env.port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server running on port: ${process.env.PORT}`);
 });
