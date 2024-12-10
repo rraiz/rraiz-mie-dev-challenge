@@ -24,7 +24,7 @@
     http://localhost:3000/
     ```
 
-5. Shut Down the Services To stop the application, press Ctrl + C in the terminal. Then run:
+5. **Shut Down the Services** To stop the application, press Ctrl + C in the terminal. Then run:
     ```
     docker-compose down
     ```
