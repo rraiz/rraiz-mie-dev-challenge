@@ -16,7 +16,9 @@ services:
     depends_on:
       - db
     volumes:
-      - .:/code
+      - .:/code:delegated
+      - /code/node_modules
+
 
   db:
     image: mariadb
