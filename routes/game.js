@@ -52,7 +52,49 @@ module.exports = {
 		  console.error('Error fetching sessions:', error.message);
 		  res.status(500).send('An error occurred while fetching sessions');
 		}
-	  },	  
+	  },
+
+	  postAddSession: async (req, res) => {
+		const { id } = req.params; // Get game ID from the URL
+		const { date } = req.body; // Get the session date from the form
+	  
+		try {
+		  // Ensure the game exists
+		  const game = await global.db.Game.findByPk(id);
+		  if (!game) {
+			return res.status(404).send('Game not found!');
+		  }
+	  
+		  // Add the session
+		  await global.db.Session.create({
+			gameId: id,
+			date,
+		  });
+	  
+		  // Check if the new session's date is newer than the current `last_played`
+		  if (!game.last_played || new Date(date) > new Date(game.last_played)) {
+			// Update the game's `last_played` field
+			await game.update({
+			  last_played: date,
+			});
+		  }
+	  
+		  // Fetch the updated sessions
+		  const sessions = await global.db.Session.findAll({
+			where: { gameId: id },
+			order: [['date', 'DESC']],
+		  });
+	  
+		  // Re-render the page with updated sessions
+		  res.render('sessions', {
+			game,
+			sessions,
+		  });
+		} catch (error) {
+		  console.error('Error adding session:', error.message);
+		  res.status(500).send('An error occurred while adding the session.');
+		}
+	  },			
 	  
   
 	// Add a new game to the database

@@ -26,6 +26,26 @@
       <p class="text-gray-500 text-center">No sessions available for this game.</p>
     <% } %>
 
+    <!-- Add Session Form -->
+    <div class="mt-6">
+      <form action="/add-session/<%= game.id %>" method="POST" class="flex flex-col items-center">
+        <label for="session-date" class="text-sm mb-2 font-bold">Add a Session:</label>
+        <input
+          type="date"
+          id="session-date"
+          name="date"
+          class="border border-gray-300 rounded-md px-2 py-1 mb-4 w-48 text-sm"
+          required
+        />
+        <button
+          type="submit"
+          class="bg-green-500 hover:bg-green-400 text-white py-2 px-4 rounded-md font-semibold transition-all duration-300"
+        >
+          Add Session
+        </button>
+      </form>
+    </div>
+
     <!-- Back to Games Button -->
     <div class="flex justify-center mt-6">
       <a href="/" class="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded-md transition-all duration-300">Back to Games</a>
