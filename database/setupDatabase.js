@@ -1,5 +1,6 @@
 const sequelize = require('./sequelize'); // Import the sequelize instance
 const Game = require('./models/game'); // Import the Game model
+const Session = require('./models/session'); // Import the Session model
 const insertSampleData = require('./seeds/sampleData'); // Import the insertSampleData function to insert sample data
 const { Sequelize } = require('sequelize');
 
@@ -24,7 +25,7 @@ const setupDatabase = async () => {
       console.log('Database schema and models successfully synced.');
 
       // Insert sample data automatically after syncing the database
-      await insertSampleData(Game); // Pass models as arguments
+      await insertSampleData(Game, Session); // Pass models as arguments
       
       return; // Exit the function successfully
     } catch (error) {
@@ -46,4 +47,4 @@ const setupDatabase = async () => {
 };
 
 // Correctly export the setupDatabase function
-module.exports = { setupDatabase, Game };
+module.exports = { setupDatabase, Game, Session};

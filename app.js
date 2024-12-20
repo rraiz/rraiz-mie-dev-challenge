@@ -7,12 +7,12 @@ const { getHomePage } = require('./routes/index');
 const game = require('./routes/game');
 
 require('dotenv').config();
-const { setupDatabase, Game } = require('./database/setupDatabase'); // Import database setup function
+const { setupDatabase, Game, Session} = require('./database/setupDatabase'); // Import database setup function
 
 setupDatabase();  // Setup and sync the database
 
 // Set global Sequelize models to be used in routes
-global.db = { Game };
+global.db = { Game, Session };
 
 app.set('port', process.env.port);
 app.set('views', __dirname + '/views');
@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', getHomePage);
 app.get('/add-game', game.getAdd);
 app.get('/edit-game/:id', game.getEdit);
+app.get('/sessions/:id', game.getSession);
 
 app.post('/add-game', game.postAdd);
 app.post('/edit-game/:id', game.postEdit);
