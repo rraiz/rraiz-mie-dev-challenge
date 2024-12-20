@@ -1,0 +1,34 @@
+<%- include('partials/header.ejs') %>
+
+<div class="bg-[#fffcec] min-h-screen p-8">
+  <div class="max-w-lg w-full bg-white rounded-lg shadow-lg p-6 mx-auto mt-8">
+    <!-- Game Thumbnail -->
+    <div class="w-full rounded-md overflow-hidden">
+      <img
+        src="<%= game.thumbnail %>"
+        alt="<%= game.name %>"
+        class="w-full object-contain h-auto rounded-md"
+      />
+    </div>
+
+    <!-- Game Title -->
+    <h1 class="text-2xl font-bold mt-4 mb-4 text-center"><%= game.name %></h1>
+
+    <!-- Session Dates -->
+    <h2 class="text-lg font-semibold mb-4 text-center">Play Session Dates</h2>
+    <% if (sessions.length > 0) { %>
+      <ul class="list-disc list-inside space-y-2">
+        <% sessions.forEach((session) => { %>
+          <li class="text-center"><%= session.date %></li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p class="text-gray-500 text-center">No sessions available for this game.</p>
+    <% } %>
+
+    <!-- Back to Games Button -->
+    <div class="flex justify-center mt-6">
+      <a href="/" class="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded-md transition-all duration-300">Back to Games</a>
+    </div>
+  </div>
+</div>
